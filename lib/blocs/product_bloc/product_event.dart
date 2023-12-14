@@ -17,3 +17,14 @@ class GetProductsByBrandEvent extends ProductEvent {
   @override
   List<Object> get props => [category];
 }
+
+class SearchProductsEvent extends ProductEvent {
+  final String name;
+
+  const SearchProductsEvent({required this.name});
+
+  @override
+  List<Object> get props => [name];
+}
+
+class ClearSearchProductsEvent extends ProductEvent {}

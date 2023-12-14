@@ -7,6 +7,7 @@ import '../../../blocs/product_bloc/product_bloc.dart';
 import '../../../data/models/product.dart';
 import '../../widgets/my_text_form_field.dart';
 import '../../widgets/product_item.dart';
+import '../search_screen/search_screen.dart';
 import 'widgets/brand_list.dart';
 import 'widgets/promo_slider.dart';
 import 'widgets/cart_button.dart';
@@ -40,11 +41,22 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               children: [
                 Expanded(
-                  child: MyTextFormField(
-                    height: 35.0,
-                    hintText: 'Cari sepatu',
-                    prefixIcon: const Icon(Icons.search),
-                    onChanged: (value) {},
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchScreen(),
+                        ),
+                      );
+                    },
+                    child: MyTextFormField(
+                      enabled: false,
+                      height: 35.0,
+                      hintText: 'Cari sepatu',
+                      prefixIcon: const Icon(Icons.search),
+                      onChanged: (value) {},
+                    ),
                   ),
                 ),
                 const SizedBox(

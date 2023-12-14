@@ -10,7 +10,9 @@ class MyTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.controller,
     this.onChanged,
+    this.onFieldSubmitted,
     this.obscureText,
+    this.enabled,
   });
   final double? height;
   final int? maxLines;
@@ -19,7 +21,9 @@ class MyTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final TextEditingController? controller;
   final Function(String)? onChanged;
+  final Function(String)? onFieldSubmitted;
   final bool? obscureText;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +31,20 @@ class MyTextFormField extends StatelessWidget {
       height: height ?? 40.0,
       child: TextFormField(
         controller: controller,
+        enabled: enabled,
         maxLines: maxLines ?? 1,
         obscureText: obscureText ?? false,
         decoration: InputDecoration(
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           contentPadding: const EdgeInsets.symmetric(
-            vertical: 10.0,
             horizontal: 10.0,
+          ),
+          disabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.black,
+            ),
+            borderRadius: BorderRadius.zero,
           ),
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
@@ -57,6 +67,7 @@ class MyTextFormField extends StatelessWidget {
           hintText: hintText,
         ),
         onChanged: onChanged,
+        onFieldSubmitted: onFieldSubmitted,
       ),
     );
   }

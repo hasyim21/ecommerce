@@ -20,8 +20,8 @@ class ProductService {
         throw Exception(
             'Error get products, status code: ${response.statusCode}');
       }
-    } catch (e) {
-      throw Exception('Error: $e');
+    } catch (_) {
+      throw [];
     }
   }
 
@@ -40,8 +40,28 @@ class ProductService {
         throw Exception(
             'Error get products, status code: ${response.statusCode}');
       }
-    } catch (e) {
-      throw Exception('Error: $e');
+    } catch (_) {
+      throw [];
+    }
+  }
+
+  Future<List<Product>> searchProducts(String name) async {
+    try {
+      final url =
+          Uri.parse('$baseUrl/api/products?filters[name][\$contains]=$name');
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body)['data'];
+        final List<Product> searchProducts =
+            data.map((item) => Product.fromJson(item)).toList();
+        return searchProducts;
+      } else {
+        throw Exception(
+            'Error get products, status code: ${response.statusCode}');
+      }
+    } catch (_) {
+      throw [];
     }
   }
 }

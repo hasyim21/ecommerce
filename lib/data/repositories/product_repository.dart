@@ -24,4 +24,14 @@ class ProductRepository {
       throw Exception('Error: $e');
     }
   }
+
+  Future<List<Product>> searchProducts(String name) async {
+    try {
+      final List<Product> productsByBrand =
+          await productService.searchProducts(name);
+      return productsByBrand;
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
 }

@@ -34,5 +34,21 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         emit(state.copyWith(status: ProductStatus.error, error: e.toString()));
       }
     });
+
+    on<SearchProductsEvent>((event, emit) async {
+      emit(state.copyWith(status: ProductStatus.loading));
+      try {
+        final List<Product> searchProducts =
+            await productRepository.searchProducts(event.name);
+        emit(state.copyWith(
+            status: ProductStatus.success, searchProducts: searchProducts));
+      } catch (e) {
+        emit(state.copyWith(status: ProductStatus.error, error: e.toString()));
+      }
+    });
+
+    on<ClearSearchProductsEvent>((event, emit) async {
+      emit(state.copyWith(status: ProductStatus.initial));
+    });
   }
 }
