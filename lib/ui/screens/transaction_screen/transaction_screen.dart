@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/auth_bloc/auth_bloc.dart';
 import '../../widgets/auth_widget.dart';
+import 'widgets/transaction_list.dart';
 
 class TransactionScreen extends StatelessWidget {
   const TransactionScreen({super.key});
@@ -22,9 +23,7 @@ class TransactionScreen extends StatelessWidget {
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthAuthenticated) {
-            return const Center(
-              child: Text('Transaksi'),
-            );
+            return const TransactionList();
           }
           if (state is AuthLoading) {
             return const Center(

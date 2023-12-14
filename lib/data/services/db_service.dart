@@ -1,63 +1,21 @@
-// import 'dart:convert';
-
-// import 'package:shared_preferences/shared_preferences.dart';
-
-// import '../models/auth.dart';
-// import '../models/user.dart';
-
-// class DBService {
-//   Future<bool> saveAuthData(Auth model) async {
-//     final SharedPreferences pref = await SharedPreferences.getInstance();
-//     final result = await pref.setString('auth', json.encode(model.toJson()));
-//     return result;
-//   }
-
-//   Future<bool> removeAuthData() async {
-//     final SharedPreferences pref = await SharedPreferences.getInstance();
-//     return pref.remove('auth');
-//   }
-
-//   Future<String> getToken() async {
-//     final SharedPreferences pref = await SharedPreferences.getInstance();
-//     final authJson = pref.getString('auth') ?? '';
-//     final authData = Auth.fromJson(json.decode(authJson));
-//     return authData.jwt;
-//   }
-
-//   Future<Auth> getAuthData() async {
-//     final SharedPreferences pref = await SharedPreferences.getInstance();
-//     final authJson = pref.getString('auth') ?? '';
-//     final authData = Auth.fromJson(json.decode(authJson));
-//     return authData;
-//   }
-
-//   Future<User> getUser() async {
-//     final SharedPreferences pref = await SharedPreferences.getInstance();
-//     final authJson = pref.getString('auth') ?? '';
-//     final authData = Auth.fromJson(json.decode(authJson));
-//     return authData.user;
-//   }
-
-//   Future<int> getUserId() async {
-//     final SharedPreferences pref = await SharedPreferences.getInstance();
-//     final authJson = pref.getString('auth') ?? '';
-//     final authData = Auth.fromJson(json.decode(authJson));
-//     return authData.user.id;
-//   }
-
-//   Future<bool> isLogin() async {
-//     final SharedPreferences pref = await SharedPreferences.getInstance();
-//     final authJson = pref.getString('auth');
-//     return authJson != null;
-//   }
-// }
-
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../models/auth.dart';
+
 class DBService {
   final FlutterSecureStorage storage = const FlutterSecureStorage();
+
+  Future<void> saveAuthData(Auth auth) async {
+    await storage.write(key: 'auth', value: json.encode(auth.toJson()));
+  }
+
+  Future<Auth> getAuthData() async {
+    final authJson = await storage.read(key: 'auth') ?? '';
+    final authData = Auth.fromJson(json.decode(authJson));
+    return authData;
+  }
 
   Future<void> saveToken(String token) async {
     await storage.write(key: 'token', value: token);

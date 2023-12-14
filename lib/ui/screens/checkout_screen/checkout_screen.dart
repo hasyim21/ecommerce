@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/order_bloc/order_bloc.dart';
 import '../../../blocs/user_bloc/user_bloc.dart';
+import '../../../data/models/auth.dart';
 import '../../../data/models/order/order_request.dart';
 import '../../../data/models/product.dart';
 import '../../../data/models/user.dart';
+import '../../../data/services/db_service.dart';
 import '../../widgets/my_divider.dart';
 import '../../widgets/my_elevated_button.dart';
 import '../../widgets/my_icon_button.dart';
@@ -173,21 +175,26 @@ class CheckoutScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: MyElevatedButton(
                     title: 'Buat Pesanan',
-                    onPressed: () {
-                      final User user = context.read<UserBloc>().state.user!;
-                      final Data data = Data(
-                        products: products,
-                        shippingCosts: shippingCosts,
-                        status: 'waitingPayment',
-                        totalPrice: totalPrice,
-                        totalPayment: totalPayment,
-                        user: user,
-                      );
-                      final OrderRequest orderRequest =
-                          OrderRequest(data: data);
-                      context.read<OrderBloc>().add(
-                            CreateOrderEvent(orderRequest: orderRequest),
-                          );
+                    onPressed: () async {
+                      final Auth authData = await DBService().getAuthData();
+                      final int userId = authData.user.id;
+                      if (context.mounted) {
+                        final User user = context.read<UserBloc>().state.user!;
+                        final Data data = Data(
+                          products: products,
+                          shippingCosts: shippingCosts,
+                          status: 'waitingPayment',
+                          totalPrice: totalPrice,
+                          totalPayment: totalPayment,
+                          user: user,
+                          userId: userId,
+                        );
+                        final OrderRequest orderRequest =
+                            OrderRequest(data: data);
+                        context.read<OrderBloc>().add(
+                              CreateOrderEvent(orderRequest: orderRequest),
+                            );
+                      }
                     },
                   ),
                 ),

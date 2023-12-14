@@ -15,3 +15,5 @@ class CreateOrderEvent extends OrderEvent {
   @override
   List<Object> get props => [orderRequest];
 }
+
+class GetOrdersEvent extends OrderEvent {}

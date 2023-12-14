@@ -21,6 +21,8 @@ class AuthRepository {
         password: password,
       );
 
+      await dbService.saveAuthData(authLogin);
+
       return authLogin;
     } catch (e) {
       throw Exception('Error: $e');
@@ -38,6 +40,8 @@ class AuthRepository {
         email: email,
         password: password,
       );
+
+      await dbService.saveAuthData(authRegister);
 
       return authRegister;
     } catch (e) {

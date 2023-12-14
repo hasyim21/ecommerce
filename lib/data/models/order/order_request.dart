@@ -32,6 +32,7 @@ class Data extends Equatable {
   final int shippingCosts;
   final int totalPayment;
   final String status;
+  final int userId;
 
   const Data({
     required this.user,
@@ -40,6 +41,7 @@ class Data extends Equatable {
     required this.shippingCosts,
     required this.totalPayment,
     required this.status,
+    required this.userId,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -50,6 +52,7 @@ class Data extends Equatable {
         shippingCosts: json["shippingCosts"],
         totalPayment: json["totalPayment"],
         status: json["status"],
+        userId: json["userId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,6 +62,7 @@ class Data extends Equatable {
         "shippingCosts": shippingCosts,
         "totalPayment": totalPayment,
         "status": status,
+        "userId": userId,
       };
 
   @override
@@ -70,11 +74,12 @@ class Data extends Equatable {
       shippingCosts,
       totalPayment,
       status,
+      userId,
     ];
   }
 
   @override
   String toString() {
-    return 'Data(user: $user, products: $products, totalPrice: $totalPrice, shippingCosts: $shippingCosts, totalPayment: $totalPayment, status: $status)';
+    return 'Data(user: $user, products: $products, totalPrice: $totalPrice, shippingCosts: $shippingCosts, totalPayment: $totalPayment, status: $status, userId: $userId)';
   }
 }
