@@ -9,42 +9,43 @@ enum OrderStatus {
 
 class OrderState extends Equatable {
   final OrderResponse? orderResponse;
-  final ListOrderResponse? listOrders;
+  final List<Order> orders;
   final OrderStatus status;
   final String? error;
 
   const OrderState({
     this.orderResponse,
-    this.listOrders,
+    required this.orders,
     required this.status,
     this.error,
   });
 
   factory OrderState.initial() {
     return const OrderState(
+      orders: [],
       status: OrderStatus.initial,
     );
   }
 
   OrderState copyWith({
     OrderResponse? orderResponse,
-    ListOrderResponse? listOrders,
+    List<Order>? orders,
     OrderStatus? status,
     String? error,
   }) {
     return OrderState(
       orderResponse: orderResponse ?? this.orderResponse,
-      listOrders: listOrders ?? this.listOrders,
+      orders: orders ?? this.orders,
       status: status ?? this.status,
       error: error ?? this.error,
     );
   }
 
   @override
-  List<Object?> get props => [orderResponse, listOrders, status, error];
+  List<Object?> get props => [orderResponse, orders, status, error];
 
   @override
   String toString() {
-    return 'OrderState(orderResponse: $orderResponse, listOrders: $listOrders, status: $status, error: $error)';
+    return 'OrderState(orderResponse: $orderResponse, orders: $orders, status: $status, error: $error)';
   }
 }

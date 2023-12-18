@@ -9,15 +9,6 @@ class Product extends Equatable {
     required this.attributes,
   });
 
-  Product copyWith({
-    int? id,
-    Attributes? attributes,
-  }) =>
-      Product(
-        id: id ?? this.id,
-        attributes: attributes ?? this.attributes,
-      );
-
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
         attributes: Attributes.fromJson(json["attributes"]),
@@ -51,23 +42,6 @@ class Attributes extends Equatable {
     required this.sizes,
     required this.images,
   });
-
-  Attributes copyWith({
-    String? name,
-    String? brand,
-    int? price,
-    String? description,
-    List<Size>? sizes,
-    List<String>? images,
-  }) =>
-      Attributes(
-        name: name ?? this.name,
-        brand: brand ?? this.brand,
-        price: price ?? this.price,
-        description: description ?? this.description,
-        sizes: sizes ?? this.sizes,
-        images: images ?? this.images,
-      );
 
   factory Attributes.fromJson(Map<String, dynamic> json) => Attributes(
         name: json["name"],
@@ -113,15 +87,6 @@ class Size extends Equatable {
     required this.size,
     required this.qty,
   });
-
-  Size copyWith({
-    String? size,
-    int? qty,
-  }) =>
-      Size(
-        size: size ?? this.size,
-        qty: qty ?? this.qty,
-      );
 
   factory Size.fromJson(Map<String, dynamic> json) => Size(
         size: json["size"],

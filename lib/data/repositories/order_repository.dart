@@ -1,5 +1,5 @@
 import '../models/auth.dart';
-import '../models/order/list_order_response.dart';
+import '../models/order/order.dart';
 import '../models/order/order_request.dart';
 import '../models/order/order_response.dart';
 import '../services/db_service.dart';
@@ -25,14 +25,13 @@ class OrderRepository {
     }
   }
 
-  Future<ListOrderResponse> getOrders() async {
+  Future<List<Order>> getOrders() async {
     try {
       final Auth authData = await dbService.getAuthData();
       final int userId = authData.user.id;
       final String token = await dbService.getToken();
-      final ListOrderResponse order =
-          await orderService.getOrders(userId, token);
-      return order;
+      final List<Order> orders = await orderService.getOrders(userId, token);
+      return orders;
     } catch (e) {
       throw Exception('Error: $e');
     }

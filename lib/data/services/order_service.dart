@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../constants/constants.dart';
-import '../models/order/list_order_response.dart';
+import '../models/order/order.dart';
 import '../models/order/order_request.dart';
 import '../models/order/order_response.dart';
 
@@ -31,7 +31,7 @@ class OrderService {
     }
   }
 
-  Future<ListOrderResponse> getOrders(int userId, String token) async {
+  Future<List<Order>> getOrders(int userId, String token) async {
     try {
       final url =
           Uri.parse('$baseUrl/api/orders?filters[userId][\$eq]=$userId');
@@ -44,8 +44,9 @@ class OrderService {
       );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return ListOrderResponse.fromJson(data);
+        final List<dynamic> data = json.decode(response.body)['data'];
+        final orders = data.map((e) => Order.fromJson(e)).toList();
+        return orders;
       } else {
         throw Exception('Get order error, status code: ${response.statusCode}');
       }

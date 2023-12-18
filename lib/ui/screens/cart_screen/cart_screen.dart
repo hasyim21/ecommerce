@@ -64,12 +64,21 @@ class CartScreen extends StatelessWidget {
                     child: Text('Wah, keranjang belanjamu kosong :('),
                   );
                 }
+
+                final productSet = state.products.toSet();
+
                 return ListView.separated(
                   padding: const EdgeInsets.all(8.0),
-                  itemCount: state.products.length,
+                  itemCount: productSet.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final Product product = state.products[index];
-                    return CartItem(product: product);
+                    final countItem = state.products.where((element) {
+                      return element.id == productSet.elementAt(index).id &&
+                          element.attributes.sizes ==
+                              productSet.elementAt(index).attributes.sizes;
+                    }).length;
+
+                    final Product product = productSet.elementAt(index);
+                    return CartItem(product: product, countItem: countItem);
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return const SizedBox(

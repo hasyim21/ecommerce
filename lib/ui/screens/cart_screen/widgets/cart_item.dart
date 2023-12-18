@@ -11,9 +11,11 @@ class CartItem extends StatelessWidget {
   const CartItem({
     super.key,
     required this.product,
+    required this.countItem,
   });
 
   final Product product;
+  final int countItem;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,7 @@ class CartItem extends StatelessWidget {
                     AddToCartEvent(product: product),
                   );
             },
-            quantity: 1,
+            quantity: countItem,
             onRemoveOrder: () {
               context.read<CheckoutBloc>().add(
                     RemoveFromCartEvent(product: product),

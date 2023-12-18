@@ -269,7 +269,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   name: product.attributes.name,
                                   brand: product.attributes.brand,
                                   price: product.attributes.price,
-                                  description: product.attributes.description,
                                   sizes: [
                                     product.attributes.sizes[_selectedIndex]
                                   ],

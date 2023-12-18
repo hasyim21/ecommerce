@@ -28,6 +28,8 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productSet = products.toSet();
+
     int shippingCosts = 25000;
     int totalPrice = products.fold<int>(
       0,
@@ -66,40 +68,43 @@ class CheckoutScreen extends StatelessWidget {
           const MyDivider(),
           Container(
             color: Colors.white,
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.shopping_bag_outlined,
-                        size: 20.0,
-                      ),
-                      SizedBox(
-                        width: 8.0,
-                      ),
-                      Text('Produk'),
-                    ],
-                  ),
+                const Row(
+                  children: [
+                    Icon(
+                      Icons.shopping_bag_outlined,
+                      size: 20.0,
+                    ),
+                    SizedBox(
+                      width: 8.0,
+                    ),
+                    Text('Produk'),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8.0,
                 ),
                 ListView.separated(
-                  itemCount: products.length,
+                  itemCount: productSet.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
-                    final Product product = products[index];
-                    return CheckoutProductItem(product: product);
+                    final countItem = products.where((element) {
+                      return element.id == productSet.elementAt(index).id &&
+                          element.attributes.sizes ==
+                              productSet.elementAt(index).attributes.sizes;
+                    }).length;
+
+                    final Product product = productSet.elementAt(index);
+                    return CheckoutProductItem(
+                        product: product, countItem: countItem);
                   },
                   separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      height: 1.0,
-                      color: Colors.grey.shade200,
-                      thickness: 1.0,
-                      indent: 8.0,
-                      endIndent: 8.0,
+                    return const SizedBox(
+                      height: 8.0,
                     );
                   },
                 ),

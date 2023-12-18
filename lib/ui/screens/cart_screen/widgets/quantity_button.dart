@@ -16,7 +16,7 @@ class QuantityButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      width: 83,
+      width: 91,
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
       decoration: BoxDecoration(
         border: Border.all(
