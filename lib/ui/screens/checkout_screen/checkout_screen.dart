@@ -8,7 +8,6 @@ import '../../../data/models/auth.dart';
 import '../../../data/models/order/order_request.dart';
 import '../../../data/models/product.dart';
 import '../../../data/models/user.dart';
-import '../../../data/services/db_service.dart';
 import '../../widgets/my_divider.dart';
 import '../../widgets/my_elevated_button.dart';
 import '../../widgets/my_icon_button.dart';
@@ -180,11 +179,10 @@ class CheckoutScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: MyElevatedButton(
                     title: 'Buat Pesanan',
-                    onPressed: () async {
-                      final Auth authData = await DBService().getAuthData();
-                      final int userId = authData.user.id;
-                      if (context.mounted) {
-                        final User user = context.read<UserBloc>().state.user!;
+                    onPressed: () {
+                      context.read<UserBloc>().add(GetUserEvent());
+                      final User user = context.read<UserBloc>().state.user!;
+                      if (user.address != null) {
                         final Data data = Data(
                           products: products,
                           shippingCosts: shippingCosts,
@@ -192,13 +190,18 @@ class CheckoutScreen extends StatelessWidget {
                           totalPrice: totalPrice,
                           totalPayment: totalPayment,
                           user: user,
-                          userId: userId,
+                          userId: user.id,
                         );
                         final OrderRequest orderRequest =
                             OrderRequest(data: data);
                         context.read<OrderBloc>().add(
                               CreateOrderEvent(orderRequest: orderRequest),
                             );
+                      } else {
+                        myShowSnackBar(
+                          context,
+                          content: 'Pastikan alamat sudah terisi',
+                        );
                       }
                     },
                   ),

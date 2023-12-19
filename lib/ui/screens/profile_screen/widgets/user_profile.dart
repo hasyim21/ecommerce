@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../blocs/user_bloc/user_bloc.dart';
+import '../../../widgets/my_icon_button.dart';
+import '../../edit_profile_screen/edit_profile_screen.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({
@@ -38,23 +40,40 @@ class _UserProfileState extends State<UserProfile> {
                 const SizedBox(
                   width: 8.0,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      state.user?.name ?? '-',
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        state.user?.fullName ?? '-',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
-                    Text(
-                      state.user?.username ?? '-',
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 4.0,
+                      ),
+                      Text(
+                        state.user?.username ?? '-',
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 8.0,
+                ),
+                MyIconButton(
+                  icon: Icons.edit,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            EditProfileScreen(user: state.user!),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

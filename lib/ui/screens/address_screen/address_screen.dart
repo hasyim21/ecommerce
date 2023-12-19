@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../blocs/user_bloc/user_bloc.dart';
 import '../../widgets/my_elevated_button.dart';
 import '../../widgets/my_icon_button.dart';
-import '../../widgets/my_text_form_field.dart';
+import '../add_address_screen/add_address_screen.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key});
@@ -41,35 +43,71 @@ class _AddressScreenState extends State<AddressScreen> {
       body: ListView(
         padding: const EdgeInsets.all(8.0),
         children: [
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'LeBron James | 08123456789',
-                style: TextStyle(),
-              ),
-              Text(
-                'Los Angeles, California, 666',
-                style: TextStyle(),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state.status == UserStatus.loading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state.user?.address == null) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      width: 1.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                  child: const Text('-'),
+                );
+              }
+
+              final address = state.user!.address;
+
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    width: 1.0,
+                    color: Colors.black,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${address!.fullName} | ${address.phoneNumber}',
+                      style: const TextStyle(),
+                    ),
+                    Text(
+                      '${address.otherDetails}, ${address.subdistrict}, ${address.regency}, ${address.province}, ${address.postalCode}',
+                      style: const TextStyle(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
           const SizedBox(
-            height: 16.0,
-          ),
-          MyTextFormField(
-            height: 140.0,
-            maxLines: 5,
-            onChanged: (value) {},
-          ),
-          const SizedBox(
-            height: 16.0,
+            height: 24.0,
           ),
           MyElevatedButton(
-            title: 'Simpan',
-            onPressed: () {},
+            title: 'Tambah Alamat',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddAddressScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),

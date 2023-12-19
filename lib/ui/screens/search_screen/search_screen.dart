@@ -15,10 +15,21 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  final FocusNode _searchFocusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
     context.read<ProductBloc>().add(ClearSearchProductsEvent());
+    _searchFocusNode.requestFocus();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
+    _searchFocusNode.dispose();
   }
 
   @override
@@ -37,18 +48,24 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Expanded(
               child: MyTextFormField(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
                 height: 35.0,
                 hintText: 'Cari sepatu',
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: InkWell(
                   child: const Icon(Icons.clear),
-                  onTap: () => context.read<ProductBloc>().add(
-                        ClearSearchProductsEvent(),
-                      ),
+                  onTap: () {
+                    _searchController.clear();
+                    context.read<ProductBloc>().add(
+                          ClearSearchProductsEvent(),
+                        );
+                  },
                 ),
                 onFieldSubmitted: (value) {
+                  _searchController.text = value;
                   context.read<ProductBloc>().add(
-                        SearchProductsEvent(name: value),
+                        SearchProductsEvent(name: _searchController.text),
                       );
                 },
               ),

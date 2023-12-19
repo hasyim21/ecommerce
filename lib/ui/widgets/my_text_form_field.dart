@@ -11,6 +11,7 @@ class MyTextFormField extends StatelessWidget {
     this.controller,
     this.onChanged,
     this.onFieldSubmitted,
+    this.focusNode,
     this.obscureText,
     this.enabled,
   });
@@ -22,6 +23,7 @@ class MyTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
+  final FocusNode? focusNode;
   final bool? obscureText;
   final bool? enabled;
 
@@ -31,10 +33,13 @@ class MyTextFormField extends StatelessWidget {
       height: height ?? 40.0,
       child: TextFormField(
         controller: controller,
+        focusNode: focusNode,
         enabled: enabled,
         maxLines: maxLines ?? 1,
         obscureText: obscureText ?? false,
         decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: const TextStyle(fontSize: 14.0),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           contentPadding: const EdgeInsets.symmetric(
@@ -64,7 +69,6 @@ class MyTextFormField extends StatelessWidget {
             ),
             borderRadius: BorderRadius.zero,
           ),
-          hintText: hintText,
         ),
         onChanged: onChanged,
         onFieldSubmitted: onFieldSubmitted,

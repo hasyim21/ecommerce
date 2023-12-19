@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'app.dart';
 import 'blocs/auth_bloc/auth_bloc.dart';
 import 'blocs/brand_bloc/brand_bloc.dart';
 import 'blocs/checkout_bloc/checkout_bloc.dart';
@@ -20,8 +21,6 @@ import 'data/services/db_service.dart';
 import 'data/services/order_service.dart';
 import 'data/services/product_service.dart';
 import 'data/services/user_service.dart';
-import 'ui/screens/main_navigation_screen/main_navigation_screen.dart';
-import 'ui/theme/my_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -106,12 +105,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Ecommerce',
-          theme: MyTheme.theme,
-          home: const MainNavigationScreen(),
-        ),
+        child: const App(),
       ),
     );
   }

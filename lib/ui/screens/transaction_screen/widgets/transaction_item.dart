@@ -47,39 +47,38 @@ class TransactionItem extends StatelessWidget {
                   const SizedBox(
                     width: 8.0,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(order.attributes.products.first.attributes.name),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
-                      Text(
-                        order.attributes.products.first.attributes.price
-                            .toRupiah(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(order.attributes.products.first.attributes.name),
+                        const SizedBox(
+                          height: 2.0,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 2.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            order.attributes.products.first.attributes.sizes
-                                .first.size,
+                        Text(
+                          order.attributes.products.first.attributes.price
+                              .toRupiah(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(
-                            width: 10.0,
-                          ),
-                          Text(
-                            '${countItem}x',
-                          ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        const SizedBox(
+                          height: 2.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              order.attributes.products.first.attributes.sizes
+                                  .first.size,
+                            ),
+                            Text(
+                              '${countItem}x',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

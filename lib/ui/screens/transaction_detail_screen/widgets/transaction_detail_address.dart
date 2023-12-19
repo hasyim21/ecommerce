@@ -44,7 +44,7 @@ class TransactionDetailAddress extends StatelessWidget {
                 ),
               ),
               Text(
-                '${order.attributes.user.address!.otherDetails}, ${order.attributes.user.address!.city}, ${order.attributes.user.address!.state}, ${order.attributes.user.address!.country}, ${order.attributes.user.address!.postalCode}',
+                '${order.attributes.user.address!.otherDetails}, ${order.attributes.user.address!.subdistrict}, ${order.attributes.user.address!.regency}, ${order.attributes.user.address!.province}, ${order.attributes.user.address!.postalCode}',
                 style: const TextStyle(
                   fontSize: 12.5,
                 ),

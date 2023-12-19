@@ -1,13 +1,12 @@
-import 'package:ecommerce/utils/currency_formater.dart';
 import 'package:flutter/material.dart';
 
-import '../../../constants/constants.dart';
 import '../../../data/models/order/order.dart';
 import '../../../data/models/product.dart';
 import '../../widgets/my_divider.dart';
 import '../../widgets/my_icon_button.dart';
 import 'widgets/transaction_detail_address.dart';
 import 'widgets/transaction_detail_payment.dart';
+import 'widgets/transaction_detail_product_item.dart';
 
 class TransactionDetailScreen extends StatelessWidget {
   const TransactionDetailScreen({super.key, required this.order});
@@ -81,66 +80,8 @@ class TransactionDetailScreen extends StatelessWidget {
 
                     final Product product = productSet.elementAt(index);
 
-                    return Container(
-                      height: 91.0,
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          width: 1.0,
-                          color: Colors.grey.shade200,
-                        ),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 75.0,
-                            width: 75.0,
-                            color: Colors.grey,
-                            child: Image.network(
-                              '$baseUrl${product.attributes.images.first}',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 8.0,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(product.attributes.name),
-                              const SizedBox(
-                                height: 2.0,
-                              ),
-                              Text(
-                                product.attributes.price.toRupiah(),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 2.0,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    product.attributes.sizes.first.size,
-                                  ),
-                                  const SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  Text('${countItem}x'),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
+                    return TransactionDetailProductItem(
+                        product: product, countItem: countItem);
                   },
                   separatorBuilder: (BuildContext context, int index) {
                     return const SizedBox(

@@ -21,7 +21,7 @@ class _TransactionListState extends State<TransactionList> {
     context.read<OrderBloc>().add(GetOrdersEvent());
   }
 
-  int calculateItemCount(Order order) {
+  int _calculateItemCount(Order order) {
     // Membuat map untuk menyimpan jumlah produk berdasarkan ID dan ukuran
     final Map<String, int> productCountMap = {};
 
@@ -66,7 +66,7 @@ class _TransactionListState extends State<TransactionList> {
           itemCount: state.orders.length,
           itemBuilder: (BuildContext context, int index) {
             final Order order = state.orders[index];
-            final countItem = calculateItemCount(order);
+            final countItem = _calculateItemCount(order);
 
             return TransactionItem(order: order, countItem: countItem);
           },

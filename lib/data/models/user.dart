@@ -4,7 +4,7 @@ class User extends Equatable {
   final int id;
   final String username;
   final String email;
-  final String? name;
+  final String? fullName;
   final String? phoneNumber;
   final Address? address;
 
@@ -12,7 +12,7 @@ class User extends Equatable {
     required this.id,
     required this.username,
     required this.email,
-    this.name,
+    this.fullName,
     this.phoneNumber,
     this.address,
   });
@@ -21,7 +21,7 @@ class User extends Equatable {
         id: json["id"],
         username: json["username"],
         email: json["email"],
-        name: json["name"] ?? '-',
+        fullName: json["fullName"] ?? '-',
         phoneNumber: json["phoneNumber"] ?? '-',
         address:
             json["address"] != null ? Address.fromJson(json["address"]) : null,
@@ -31,7 +31,7 @@ class User extends Equatable {
         "id": id,
         "username": username,
         "email": email,
-        "name": name,
+        "fullName": fullName,
         "phoneNumber": phoneNumber,
         "address": address?.toJson(),
       };
@@ -42,7 +42,7 @@ class User extends Equatable {
       id,
       username,
       email,
-      name,
+      fullName,
       phoneNumber,
       address,
     ];
@@ -52,43 +52,39 @@ class User extends Equatable {
 class Address extends Equatable {
   final String fullName;
   final String phoneNumber;
-  final String street;
-  final String city;
-  final String state;
+  final String subdistrict;
+  final String regency;
+  final String province;
   final String postalCode;
-  final String country;
   final String otherDetails;
 
   const Address({
     required this.fullName,
     required this.phoneNumber,
-    required this.street,
-    required this.city,
-    required this.state,
+    required this.subdistrict,
+    required this.regency,
+    required this.province,
     required this.postalCode,
-    required this.country,
     required this.otherDetails,
   });
 
   factory Address.fromJson(Map<String, dynamic> json) => Address(
         fullName: json["fullName"],
         phoneNumber: json["phoneNumber"],
-        street: json["street"],
-        city: json["city"],
-        state: json["state"],
+        subdistrict: json["subdistrict"],
+        regency: json["regency"],
+        province: json["province"],
         postalCode: json["postalCode"],
-        country: json["country"],
         otherDetails: json["otherDetails"],
       );
 
   Map<String, dynamic> toJson() => {
         "fullName": fullName,
         "phoneNumber": phoneNumber,
-        "street": street,
-        "city": city,
-        "state": state,
+        "subdistrict": subdistrict,
+        "regency": regency,
+        "province": province,
         "postalCode": postalCode,
-        "country": country,
         "otherDetails": otherDetails,
       };
 
@@ -97,17 +93,16 @@ class Address extends Equatable {
     return [
       fullName,
       phoneNumber,
-      street,
-      city,
-      state,
+      subdistrict,
+      regency,
+      province,
       postalCode,
-      country,
       otherDetails,
     ];
   }
 
   @override
   String toString() {
-    return 'Address(fullName: $fullName, phoneNumber: $phoneNumber, street: $street, city: $city, state: $state, postalCode: $postalCode, country: $country, otherDetails: $otherDetails)';
+    return 'Address(fullName: $fullName, phoneNumber: $phoneNumber, subdistrict: $subdistrict, regency: $regency, province: $province, postalCode: $postalCode, otherDetails: $otherDetails)';
   }
 }
