@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/order_bloc/order_bloc.dart';
 import '../../../blocs/user_bloc/user_bloc.dart';
-import '../../../data/models/auth.dart';
 import '../../../data/models/order/order_request.dart';
 import '../../../data/models/product.dart';
 import '../../../data/models/user.dart';

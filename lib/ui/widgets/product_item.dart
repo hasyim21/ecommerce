@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/utils/currency_formater.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +33,17 @@ class ProductItem extends StatelessWidget {
             children: [
               AspectRatio(
                 aspectRatio: 1,
-                child: Image.network(
-                  '$baseUrl${product.attributes.images.first}',
+                child: CachedNetworkImage(
+                  imageUrl: '$baseUrl${product.attributes.images.first}',
+                  errorWidget: (context, url, error) => AspectRatio(
+                    aspectRatio: 1,
+                    child: Container(
+                      color: Colors.grey.shade200,
+                      child: Image.asset(
+                        "assets/images/no_image.png",
+                      ),
+                    ),
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),

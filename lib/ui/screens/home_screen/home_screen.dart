@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/brand_bloc/brand_bloc.dart';
-import '../../../blocs/checkout_bloc/checkout_bloc.dart';
 import '../../../blocs/product_bloc/product_bloc.dart';
 import '../../../data/models/product.dart';
 import '../../widgets/my_text_form_field.dart';
@@ -10,7 +9,6 @@ import '../../widgets/product_item.dart';
 import '../search_screen/search_screen.dart';
 import 'widgets/brand_list.dart';
 import 'widgets/promo_slider.dart';
-import 'widgets/cart_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,46 +36,22 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 12.0,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SearchScreen(),
-                        ),
-                      );
-                    },
-                    child: MyTextFormField(
-                      enabled: false,
-                      height: 35.0,
-                      hintText: 'Cari sepatu',
-                      prefixIcon: const Icon(Icons.search),
-                      onChanged: (value) {},
-                    ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchScreen(),
                   ),
-                ),
-                const SizedBox(
-                  width: 8.0,
-                ),
-                BlocBuilder<CheckoutBloc, CheckoutState>(
-                  builder: (context, state) {
-                    if (state.products.isEmpty) {
-                      return const CartButton();
-                    }
-
-                    return Badge(
-                      backgroundColor: Colors.red,
-                      offset: Offset(
-                          (state.products.length >= 10) ? -6.5 : 0.1, 1.0),
-                      label: Text('${state.products.length}'),
-                      child: const CartButton(),
-                    );
-                  },
-                ),
-              ],
+                );
+              },
+              child: MyTextFormField(
+                enabled: false,
+                height: 35.0,
+                hintText: 'Cari sepatu',
+                prefixIcon: const Icon(Icons.search),
+                onChanged: (value) {},
+              ),
             ),
             const SizedBox(
               height: 12.0,

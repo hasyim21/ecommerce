@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/checkout_bloc/checkout_bloc.dart';
+import '../../../blocs/product_bloc/product_bloc.dart';
 import '../../../data/models/product.dart';
 import '../../../data/services/db_service.dart';
 import '../../widgets/my_elevated_button.dart';
@@ -62,7 +63,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CartScreen(),
+                          builder: (context) => const CartScreen(isBack: true),
                         ),
                       );
                     },
@@ -80,7 +81,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const CartScreen(),
+                          builder: (context) => const CartScreen(isBack: true),
                         ),
                       );
                     },
@@ -91,104 +92,112 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          ImageSlider(product: product),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<ProductBloc>().add(GetProductsEvent());
+        },
+        child: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            if (state.status == ProductStatus.loading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListView(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      product.attributes.brand,
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                ImageSlider(product: product),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.attributes.brand,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    MyIconButton(
-                      icon: Icons.favorite_outline,
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-                Text(
-                  product.attributes.name,
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                Text(
-                  product.attributes.price.toRupiah(),
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                const Text(
-                  'Pilih Ukuran',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                Wrap(
-                  spacing: 8.0,
-                  children:
-                      product.attributes.sizes.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final item = entry.value;
+                      Text(
+                        product.attributes.name,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      Text(
+                        product.attributes.price.toRupiah(),
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      const Text(
+                        'Pilih Ukuran',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8.0,
+                      ),
+                      Wrap(
+                        spacing: 8.0,
+                        children: product.attributes.sizes
+                            .asMap()
+                            .entries
+                            .map((entry) {
+                          final index = entry.key;
+                          final item = entry.value;
 
-                    return ActionChip(
-                      label: Text(item.size.toString()),
-                      shape: const RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.all(
-                          Radius.zero,
+                          return ActionChip(
+                            label: Text(item.size.toString()),
+                            shape: const RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Colors.black,
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.zero,
+                              ),
+                            ),
+                            backgroundColor: index == _selectedIndex
+                                ? Colors.black
+                                : Colors.white,
+                            labelStyle: TextStyle(
+                              color: index == _selectedIndex
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                            onPressed: () => updateIndex(index),
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      const Text(
+                        'Deskripsi Produk',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      backgroundColor:
-                          index == _selectedIndex ? Colors.black : Colors.white,
-                      labelStyle: TextStyle(
-                        color: index == _selectedIndex
-                            ? Colors.white
-                            : Colors.black,
+                      const SizedBox(
+                        height: 8.0,
                       ),
-                      onPressed: () => updateIndex(index),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
-                const Text(
-                  'Deskripsi Produk',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
+                      Text(product.attributes.description ?? '-'),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                Text(product.attributes.description ?? '-'),
-                const SizedBox(
-                  height: 16.0,
                 ),
               ],
-            ),
-          ),
-        ],
+            );
+          },
+        ),
       ),
       bottomNavigationBar: Container(
         height: 56.0,

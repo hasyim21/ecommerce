@@ -9,11 +9,12 @@ import '../../widgets/auth_widget.dart';
 import '../../widgets/my_elevated_button.dart';
 import '../../widgets/my_icon_button.dart';
 import '../checkout_screen/checkout_screen.dart';
-import '../wishlist_screen/wishlist_screen.dart';
 import 'widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
+  const CartScreen({super.key, this.isBack = false});
+
+  final bool isBack;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +24,15 @@ class CartScreen extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            MyIconButton(
-              icon: Icons.arrow_back,
-              onTap: () => Navigator.pop(context),
-            ),
+            (isBack)
+                ? MyIconButton(
+                    icon: Icons.arrow_back,
+                    onTap: () => Navigator.pop(context),
+                  )
+                : const SizedBox(
+                    height: 40.0,
+                    width: 40.0,
+                  ),
             const Text(
               'Keranjang',
               style: TextStyle(
@@ -34,16 +40,9 @@ class CartScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            MyIconButton(
-              icon: Icons.favorite_outline,
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const WishlistScreen(),
-                  ),
-                );
-              },
+            const SizedBox(
+              height: 40.0,
+              width: 40.0,
             ),
           ],
         ),

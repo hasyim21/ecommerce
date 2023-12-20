@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -38,18 +39,22 @@ class _ImageSliderState extends State<ImageSlider> {
           items: widget.product.attributes.images.map((imageUrl) {
             return Builder(
               builder: (BuildContext context) {
-                return AspectRatio(
-                  aspectRatio: 1,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          '$baseUrl$imageUrl',
+                return Container(
+                  color: Colors.grey.shade200,
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: CachedNetworkImage(
+                      imageUrl: '$baseUrl$imageUrl',
+                      errorWidget: (context, url, error) => AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          color: Colors.grey.shade200,
+                          child: Image.asset(
+                            "assets/images/no_image.png",
+                          ),
                         ),
-                        fit: BoxFit.cover,
                       ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 );

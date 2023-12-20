@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,8 +46,14 @@ class BrandList extends StatelessWidget {
                           color: Colors.black,
                         ),
                       ),
-                      child: Image.network(
-                        '$baseUrl${brand.attributes.image}',
+                      child: CachedNetworkImage(
+                        imageUrl: '$baseUrl${brand.attributes.image}',
+                        errorWidget: (context, url, error) => Container(
+                          color: Colors.grey.shade200,
+                          child: Image.asset(
+                            "assets/images/no_image.png",
+                          ),
+                        ),
                         fit: BoxFit.contain,
                       ),
                     ),

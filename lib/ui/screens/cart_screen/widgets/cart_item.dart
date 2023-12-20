@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce/utils/currency_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,8 +37,18 @@ class CartItem extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                '$baseUrl${product.attributes.images.first}',
+              CachedNetworkImage(
+                imageUrl: '$baseUrl${product.attributes.images.first}',
+                errorWidget: (context, url, error) => AspectRatio(
+                  aspectRatio: 1,
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    color: Colors.grey.shade200,
+                    child: Image.asset(
+                      "assets/images/no_image.png",
+                    ),
+                  ),
+                ),
                 width: 75.0,
                 height: 75.0,
                 fit: BoxFit.cover,
