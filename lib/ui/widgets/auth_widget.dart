@@ -19,8 +19,11 @@ class AuthWidget extends StatelessWidget {
             const CircleAvatar(
               radius: 35.0,
               backgroundColor: Colors.grey,
-              backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/flagged/photo-1559502867-c406bd78ff24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80'),
+              child: Icon(
+                Icons.person_outline,
+                size: 40.0,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(
               height: 8.0,

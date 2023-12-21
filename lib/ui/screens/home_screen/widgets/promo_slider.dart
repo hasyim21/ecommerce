@@ -31,6 +31,7 @@ class _PromoSliderState extends State<PromoSlider> {
                 aspectRatio: 3.33,
                 autoPlay: true,
                 viewportFraction: 1,
+                autoPlayInterval: const Duration(seconds: 5),
                 onPageChanged: (index, reason) {
                   _currentIndex = index;
                   setState(() {});

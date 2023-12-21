@@ -84,24 +84,26 @@ class DeliveryAddress extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'LeBron James | 08123456789',
-                        style: TextStyle(
-                          fontSize: 12.5,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${state.user!.address!.fullName} | ${state.user!.address!.phoneNumber}',
+                          style: const TextStyle(
+                            fontSize: 12.5,
+                          ),
                         ),
-                      ),
-                      Text(
-                        'Los Angeles, California, 666',
-                        style: TextStyle(
-                          fontSize: 12.5,
+                        Text(
+                          '${state.user!.address!.otherDetails}, ${state.user!.address!.subdistrict}, ${state.user!.address!.regency}, ${state.user!.address!.province}, ${state.user!.address!.postalCode}',
+                          style: const TextStyle(
+                            fontSize: 12.5,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   MyIconButton(
                     icon: Icons.arrow_forward_ios,

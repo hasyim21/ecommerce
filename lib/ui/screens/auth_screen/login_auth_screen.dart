@@ -24,7 +24,7 @@ class _LoginAuthScreenState extends State<LoginAuthScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void loadUserData() async {
+  void _loadUserData() async {
     final user = await DBService().getUser();
     if (user != null) {
       _emailController.text = user['email'];
@@ -34,7 +34,7 @@ class _LoginAuthScreenState extends State<LoginAuthScreen> {
 
   @override
   void initState() {
-    loadUserData();
+    _loadUserData();
     super.initState();
   }
 

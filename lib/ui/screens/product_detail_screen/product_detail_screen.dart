@@ -5,14 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../blocs/checkout_bloc/checkout_bloc.dart';
 import '../../../blocs/product_bloc/product_bloc.dart';
 import '../../../data/models/product.dart';
-import '../../../data/services/db_service.dart';
-import '../../widgets/my_elevated_button.dart';
 import '../../widgets/my_icon_button.dart';
-import '../../widgets/my_show_snackbar.dart';
-import '../auth_screen/login_auth_screen.dart';
 import '../cart_screen/cart_screen.dart';
-import '../checkout_screen/checkout_screen.dart';
 import 'widgets/image_slider.dart';
+import 'widgets/shopping_bottom_bar.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({
@@ -199,114 +195,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           },
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 56.0,
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(
-              color: Colors.grey.shade300,
-            ),
-          ),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: MyElevatedButton(
-                title: '+ Keranjang',
-                borderColor: Colors.black,
-                backgroundColor: Colors.white,
-                textColor: Colors.black,
-                onPressed: () async {
-                  if (_selectedIndex != -1) {
-                    final isLogin = await DBService().hasToken();
-                    if (context.mounted) {
-                      if (isLogin) {
-                        context.read<CheckoutBloc>().add(
-                              AddToCartEvent(
-                                product: Product(
-                                  id: product.id,
-                                  attributes: Attributes(
-                                    name: product.attributes.name,
-                                    brand: product.attributes.brand,
-                                    price: product.attributes.price,
-                                    sizes: [
-                                      product.attributes.sizes[_selectedIndex]
-                                    ],
-                                    images: product.attributes.images,
-                                  ),
-                                ),
-                              ),
-                            );
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginAuthScreen(),
-                          ),
-                        );
-                      }
-                    }
-                  } else {
-                    myShowSnackBar(
-                      context,
-                      content: 'Silakan pilih ukuran terlebih dahulu.',
-                    );
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              width: 8.0,
-            ),
-            Expanded(
-              child: MyElevatedButton(
-                title: 'Beli Sekarang',
-                onPressed: () async {
-                  if (_selectedIndex != -1) {
-                    final isLogin = await DBService().hasToken();
-                    if (context.mounted) {
-                      if (isLogin) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CheckoutScreen(products: [
-                              Product(
-                                id: product.id,
-                                attributes: Attributes(
-                                  name: product.attributes.name,
-                                  brand: product.attributes.brand,
-                                  price: product.attributes.price,
-                                  sizes: [
-                                    product.attributes.sizes[_selectedIndex]
-                                  ],
-                                  images: product.attributes.images,
-                                ),
-                              )
-                            ]),
-                          ),
-                        );
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginAuthScreen(),
-                          ),
-                        );
-                      }
-                    }
-                  } else {
-                    myShowSnackBar(
-                      context,
-                      content: 'Silakan pilih ukuran terlebih dahulu.',
-                    );
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
+      bottomNavigationBar: ShoppingBottomBar(
+        selectedIndex: _selectedIndex,
+        product: product,
       ),
     );
   }

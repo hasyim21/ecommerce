@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../blocs/user_bloc/user_bloc.dart';
 import '../../widgets/my_elevated_button.dart';
@@ -46,8 +47,20 @@ class _AddressScreenState extends State<AddressScreen> {
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
               if (state.status == UserStatus.loading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.white,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 78.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 1.0,
+                        color: Colors.grey.shade200,
+                      ),
+                    ),
+                  ),
                 );
               }
               if (state.user?.address == null) {

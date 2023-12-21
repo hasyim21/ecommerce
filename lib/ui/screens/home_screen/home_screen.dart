@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/brand_bloc/brand_bloc.dart';
 import '../../../blocs/product_bloc/product_bloc.dart';
-import '../../../data/models/product.dart';
 import '../../widgets/my_text_form_field.dart';
-import '../../widgets/product_item.dart';
 import '../search_screen/search_screen.dart';
 import 'widgets/brand_list.dart';
+import 'widgets/product_list.dart';
 import 'widgets/promo_slider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -65,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
+          context.read<BrandBloc>().add(GetBrandsEvent());
           context.read<ProductBloc>().add(GetProductsEvent());
         },
         child: ListView(
@@ -73,51 +73,20 @@ class _HomeScreenState extends State<HomeScreen> {
             const PromoSlider(),
             Container(
               color: Colors.white,
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'REKOMENDASI',
                     style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 8.0,
                   ),
-                  BlocBuilder<ProductBloc, ProductState>(
-                    builder: (context, state) {
-                      if (state.status == ProductStatus.loading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-
-                      if (state.products.isEmpty) {
-                        return const Center(
-                          child: Text('Produk kosong :('),
-                        );
-                      }
-
-                      return GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.65,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 8.0,
-                          crossAxisSpacing: 8.0,
-                        ),
-                        itemCount: state.products.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          final Product product = state.products[index];
-                          return ProductItem(product: product);
-                        },
-                      );
-                    },
-                  ),
+                  ProductList(),
                 ],
               ),
             ),

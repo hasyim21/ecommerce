@@ -21,30 +21,6 @@ class _TransactionListState extends State<TransactionList> {
     context.read<OrderBloc>().add(GetOrdersEvent());
   }
 
-  int _calculateItemCount(Order order) {
-    // Membuat map untuk menyimpan jumlah produk berdasarkan ID dan ukuran
-    final Map<String, int> productCountMap = {};
-
-    // Menghitung jumlah setiap produk dalam pesanan
-    for (var product in order.attributes.products) {
-      final key = "${product.id}_${product.attributes.sizes.first.size}";
-
-      if (productCountMap.containsKey(key)) {
-        productCountMap[key] = productCountMap[key]! + 1;
-      } else {
-        productCountMap[key] = 1;
-      }
-    }
-
-    // Mengambil produk pertama dari pesanan
-    final firstProduct = order.attributes.products.first;
-    final key =
-        "${firstProduct.id}_${firstProduct.attributes.sizes.first.size}";
-
-    // Mengembalikan jumlah produk yang memiliki ID dan ukuran yang sama dengan produk pertama
-    return productCountMap[key] ?? 0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc, OrderState>(
@@ -79,4 +55,27 @@ class _TransactionListState extends State<TransactionList> {
       },
     );
   }
+}
+
+int _calculateItemCount(Order order) {
+  // Membuat map untuk menyimpan jumlah produk berdasarkan ID dan ukuran
+  final Map<String, int> productCountMap = {};
+
+  // Menghitung jumlah setiap produk dalam pesanan
+  for (var product in order.attributes.products) {
+    final key = "${product.id}_${product.attributes.sizes.first.size}";
+
+    if (productCountMap.containsKey(key)) {
+      productCountMap[key] = productCountMap[key]! + 1;
+    } else {
+      productCountMap[key] = 1;
+    }
+  }
+
+  // Mengambil produk pertama dari pesanan
+  final firstProduct = order.attributes.products.first;
+  final key = "${firstProduct.id}_${firstProduct.attributes.sizes.first.size}";
+
+  // Mengembalikan jumlah produk yang memiliki ID dan ukuran yang sama dengan produk pertama
+  return productCountMap[key] ?? 0;
 }
