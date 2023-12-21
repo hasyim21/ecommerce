@@ -35,30 +35,44 @@ class _UserProfileState extends State<UserProfile> {
           width: MediaQuery.of(context).size.width,
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 35.0,
-                backgroundColor: Colors.grey,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(35.0),
-                  ),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        'https://images.unsplash.com/flagged/photo-1559502867-c406bd78ff24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=685&q=80',
-                    errorWidget: (context, url, error) => AspectRatio(
-                      aspectRatio: 1,
-                      child: Container(
-                        color: Colors.grey.shade200,
-                        child: Image.asset(
-                          "assets/images/no_image.png",
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  if (state.user?.image == null) {
+                    return const CircleAvatar(
+                      radius: 35.0,
+                      backgroundColor: Colors.grey,
+                      child: Icon(
+                        Icons.person_outline,
+                        size: 40.0,
+                        color: Colors.black,
+                      ),
+                    );
+                  }
+                  return CircleAvatar(
+                    radius: 35.0,
+                    backgroundColor: Colors.grey,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(35.0),
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: state.user!.image!,
+                        errorWidget: (context, url, error) => AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            color: Colors.grey.shade200,
+                            child: Image.asset(
+                              "assets/images/no_image.png",
+                            ),
+                          ),
                         ),
+                        width: 70.0,
+                        height: 70.0,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    width: 70.0,
-                    height: 70.0,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                  );
+                },
               ),
               const SizedBox(
                 width: 8.0,

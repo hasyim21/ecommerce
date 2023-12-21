@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,11 +63,44 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           const SizedBox(
             height: 16.0,
           ),
-          const CircleAvatar(
-            radius: 50.0,
-            backgroundImage: NetworkImage(
-              "https://i.ibb.co/PGv8ZzG/me.jpg",
-            ),
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state.user?.image == null) {
+                return const CircleAvatar(
+                  radius: 35.0,
+                  backgroundColor: Colors.grey,
+                  child: Icon(
+                    Icons.person_outline,
+                    size: 40.0,
+                    color: Colors.black,
+                  ),
+                );
+              }
+              return CircleAvatar(
+                radius: 35.0,
+                backgroundColor: Colors.grey,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(35.0),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: state.user!.image!,
+                    errorWidget: (context, url, error) => AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        color: Colors.grey.shade200,
+                        child: Image.asset(
+                          "assets/images/no_image.png",
+                        ),
+                      ),
+                    ),
+                    width: 70.0,
+                    height: 70.0,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
           ),
           const SizedBox(
             height: 24.0,

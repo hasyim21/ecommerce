@@ -4,6 +4,7 @@ class User extends Equatable {
   final int id;
   final String username;
   final String email;
+  final String? image;
   final String? fullName;
   final String? phoneNumber;
   final Address? address;
@@ -12,6 +13,7 @@ class User extends Equatable {
     required this.id,
     required this.username,
     required this.email,
+    this.image,
     this.fullName,
     this.phoneNumber,
     this.address,
@@ -21,6 +23,7 @@ class User extends Equatable {
         id: json["id"],
         username: json["username"],
         email: json["email"],
+        image: json["image"],
         fullName: json["fullName"] ?? '-',
         phoneNumber: json["phoneNumber"] ?? '-',
         address:
@@ -31,6 +34,7 @@ class User extends Equatable {
         "id": id,
         "username": username,
         "email": email,
+        "image": image,
         "fullName": fullName,
         "phoneNumber": phoneNumber,
         "address": address?.toJson(),
@@ -42,10 +46,16 @@ class User extends Equatable {
       id,
       username,
       email,
+      image,
       fullName,
       phoneNumber,
       address,
     ];
+  }
+
+  @override
+  String toString() {
+    return 'User(id: $id, username: $username, email: $email, image: $image, fullName: $fullName, phoneNumber: $phoneNumber, address: $address)';
   }
 }
 
