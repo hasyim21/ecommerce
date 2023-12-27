@@ -50,8 +50,8 @@ class OrderService {
       } else {
         throw Exception('Get order error, status code: ${response.statusCode}');
       }
-    } catch (_) {
-      throw [];
+    } catch (e) {
+      throw Exception('Error: $e');
     }
   }
 }

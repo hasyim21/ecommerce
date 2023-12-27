@@ -8,18 +8,21 @@ import 'blocs/checkout_bloc/checkout_bloc.dart';
 import 'blocs/login_bloc/login_bloc.dart';
 import 'blocs/order_bloc/order_bloc.dart';
 import 'blocs/product_bloc/product_bloc.dart';
+import 'blocs/promo_bloc/promo_bloc.dart';
 import 'blocs/register_bloc/register_bloc.dart';
 import 'blocs/user_bloc/user_bloc.dart';
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/brand_repository.dart';
 import 'data/repositories/order_repository.dart';
 import 'data/repositories/product_repository.dart';
+import 'data/repositories/promo_repository.dart';
 import 'data/repositories/user_repository.dart';
 import 'data/services/auth_service.dart';
 import 'data/services/brand_service.dart';
 import 'data/services/db_service.dart';
 import 'data/services/order_service.dart';
 import 'data/services/product_service.dart';
+import 'data/services/promo_service.dart';
 import 'data/services/user_service.dart';
 
 void main() {
@@ -53,6 +56,11 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) => BrandRepository(
             brandService: BrandService(),
+          ),
+        ),
+        RepositoryProvider(
+          create: (context) => PromoRepository(
+            promoService: PromoService(),
           ),
         ),
         RepositoryProvider(
@@ -94,6 +102,11 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => BrandBloc(
               brandRepository: context.read<BrandRepository>(),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => PromoBloc(
+              promoRepository: context.read<PromoRepository>(),
             ),
           ),
           BlocProvider(

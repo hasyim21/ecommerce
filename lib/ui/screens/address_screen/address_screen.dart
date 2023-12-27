@@ -41,29 +41,49 @@ class _AddressScreenState extends State<AddressScreen> {
           ],
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(8.0),
-        children: [
-          BlocBuilder<UserBloc, UserState>(
-            builder: (context, state) {
-              if (state.status == UserStatus.loading) {
-                return Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.white,
-                  child: Container(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<UserBloc>().add(GetUserEvent());
+        },
+        child: ListView(
+          padding: const EdgeInsets.all(8.0),
+          children: [
+            BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state.status == UserStatus.loading) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.white,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 78.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          width: 1.0,
+                          color: Colors.grey.shade200,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                if (state.user?.address == null) {
+                  return Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 78.0,
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
                         width: 1.0,
-                        color: Colors.grey.shade200,
+                        color: Colors.black,
                       ),
                     ),
-                  ),
-                );
-              }
-              if (state.user?.address == null) {
+                    child: const Text('-'),
+                  );
+                }
+
+                final address = state.user!.address;
+
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(8.0),
@@ -74,55 +94,40 @@ class _AddressScreenState extends State<AddressScreen> {
                       color: Colors.black,
                     ),
                   ),
-                  child: const Text('-'),
-                );
-              }
-
-              final address = state.user!.address;
-
-              return Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    width: 1.0,
-                    color: Colors.black,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${address!.fullName} | ${address.phoneNumber}',
+                        style: const TextStyle(),
+                      ),
+                      Text(
+                        '${address.otherDetails}, ${address.subdistrict}, ${address.regency}, ${address.province}, ${address.postalCode}',
+                        style: const TextStyle(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${address!.fullName} | ${address.phoneNumber}',
-                      style: const TextStyle(),
-                    ),
-                    Text(
-                      '${address.otherDetails}, ${address.subdistrict}, ${address.regency}, ${address.province}, ${address.postalCode}',
-                      style: const TextStyle(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-          const SizedBox(
-            height: 24.0,
-          ),
-          MyElevatedButton(
-            title: 'Tambah Alamat',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddAddressScreen(),
-                ),
-              );
-            },
-          ),
-        ],
+                );
+              },
+            ),
+            const SizedBox(
+              height: 24.0,
+            ),
+            MyElevatedButton(
+              title: 'Tambah Alamat',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddAddressScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

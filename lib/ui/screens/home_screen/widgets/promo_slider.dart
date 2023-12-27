@@ -1,5 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../../../../blocs/promo_bloc/promo_bloc.dart';
+import '../../../../constants/constants.dart';
 
 class PromoSlider extends StatefulWidget {
   const PromoSlider({super.key});
@@ -14,14 +20,21 @@ class _PromoSliderState extends State<PromoSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        List images = [
-          'assets/images/banner1.png',
-          'assets/images/banner2.png',
-          'assets/images/banner3.png',
-          'assets/images/banner4.png',
-        ];
+    return BlocBuilder<PromoBloc, PromoState>(
+      builder: (context, state) {
+        if (state.status == PromoStatus.loading) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.white,
+            child: AspectRatio(
+              aspectRatio: 3.33,
+              child: Container(
+                color: Colors.grey,
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+          );
+        }
 
         return Column(
           children: [
@@ -37,19 +50,26 @@ class _PromoSliderState extends State<PromoSlider> {
                   setState(() {});
                 },
               ),
-              items: images.map((imageUrl) {
+              items: state.promos.map((promo) {
                 return Builder(
                   builder: (BuildContext context) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
-                        image: DecorationImage(
-                          image: AssetImage(
-                            imageUrl,
+                        color: Colors.grey.shade200,
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: '$baseUrl${promo.attributes.image}',
+                        errorWidget: (context, url, error) => AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            color: Colors.grey.shade200,
+                            child: Image.asset(
+                              "assets/images/no_image.png",
+                            ),
                           ),
-                          fit: BoxFit.cover,
                         ),
+                        fit: BoxFit.cover,
                       ),
                     );
                   },
@@ -58,7 +78,7 @@ class _PromoSliderState extends State<PromoSlider> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: images.asMap().entries.map(
+              children: state.promos.asMap().entries.map(
                 (entry) {
                   return Container(
                     width: 24.0,

@@ -21,7 +21,7 @@ class ProductService {
             'Error get products, status code: ${response.statusCode}');
       }
     } catch (_) {
-      throw [];
+      return [];
     }
   }
 
@@ -41,7 +41,7 @@ class ProductService {
             'Error get products, status code: ${response.statusCode}');
       }
     } catch (_) {
-      throw [];
+      return [];
     }
   }
 
@@ -61,7 +61,7 @@ class ProductService {
             'Error get products, status code: ${response.statusCode}');
       }
     } catch (_) {
-      throw [];
+      return [];
     }
   }
 }

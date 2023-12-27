@@ -3,22 +3,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../constants/constants.dart';
-import '../models/brand.dart';
+import '../models/promo.dart';
 
-class BrandService {
-  Future<List<Brand>> getBrands() async {
+class PromoService {
+  Future<List<Promo>> getPromos() async {
     try {
-      final url = Uri.parse('$baseUrl/api/brands');
+      final url = Uri.parse('$baseUrl/api/promos');
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)['data'];
-        final List<Brand> brands =
-            data.map((item) => Brand.fromJson(item)).toList();
-        return brands;
+        final List<Promo> promos =
+            data.map((item) => Promo.fromJson(item)).toList();
+        return promos;
       } else {
         throw Exception(
-            'Error get brands, status code: ${response.statusCode}');
+            'Error get promos, status code: ${response.statusCode}');
       }
     } catch (_) {
       return [];

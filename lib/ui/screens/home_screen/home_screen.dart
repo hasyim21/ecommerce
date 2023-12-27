@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../blocs/brand_bloc/brand_bloc.dart';
 import '../../../blocs/product_bloc/product_bloc.dart';
+import '../../../blocs/promo_bloc/promo_bloc.dart';
 import '../../widgets/my_text_form_field.dart';
 import '../search_screen/search_screen.dart';
 import 'widgets/brand_list.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     context.read<ProductBloc>().add(GetProductsEvent());
     context.read<BrandBloc>().add(GetBrandsEvent());
+    context.read<PromoBloc>().add(GetPromosEvent());
     super.initState();
   }
 
@@ -64,8 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<BrandBloc>().add(GetBrandsEvent());
           context.read<ProductBloc>().add(GetProductsEvent());
+          context.read<BrandBloc>().add(GetBrandsEvent());
+          context.read<PromoBloc>().add(GetPromosEvent());
         },
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
