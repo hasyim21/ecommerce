@@ -12,7 +12,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Ecommerce',
+      title: 'SNKRS',
       theme: MyTheme.theme,
       home: const MainNavigationScreen(),
     );
